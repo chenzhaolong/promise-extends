@@ -41,8 +41,9 @@ const PromiseExtends = (function() {
     };
 
     return {
-        extend() {
-            if (!isPromise()) {
+        extend(options) {
+            const {isExtend = true} = options;
+            if (!isPromise() || !isExtend) {
                 return false;
             }
             extendsPromiseLimit();
