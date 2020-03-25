@@ -1,0 +1,22 @@
+{
+  "name": "promise-extends",
+  "version": "1.0.0",
+  "description": "promise的扩展",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenzhaolong/promise-extends.git"
+  },
+  "keywords": [
+    "promise"
+  ],
+  "author": "dragonchen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chenzhaolong/promise-extends/issues"
+  },
+  "homepage": "https://github.com/chenzhaolong/promise-extends#readme"
+}
