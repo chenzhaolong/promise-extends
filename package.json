@@ -2,7 +2,7 @@
   "name": "promise-extends",
   "version": "1.0.0",
   "description": "promise的扩展",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/chenzhaolong/promise-extends#readme",
   "dependencies": {
     "chai": "^4.2.0",
-    "mocha": "^7.1.1"
+    "mocha": "^7.1.1",
+    "typescript": "^3.8.3"
   }
 }
