@@ -1,0 +1,1 @@
+import PromiseExtends from '../index';
