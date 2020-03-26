@@ -1,0 +1,11 @@
+#lib
+lib/*.ts
+
+# Dependency directories
+node_modules/
+
+# test
+test/
+
+#root
+index.ts
