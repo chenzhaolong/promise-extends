@@ -29,6 +29,11 @@ const PromiseExtends: PromiseExtend.Result = (function() {
 
     };
 
+    // 允许
+    const extendsPromiseAllow = () => {
+
+    };
+
     /**
      * 实例方法
      */
@@ -38,7 +43,16 @@ const PromiseExtends: PromiseExtend.Result = (function() {
     };
 
     const extendsPromiseFinally = () => {
-
+        // @ts-ignore
+        Promise.prototype.finally = function(cb: () => void) {
+            this.then(d => {
+                cb();
+                return d;
+            }).catch(e => {
+                cb();
+                throw e;
+            });
+        };
     };
 
     return {
@@ -53,6 +67,7 @@ const PromiseExtends: PromiseExtend.Result = (function() {
             extendsPromiseClean();
             extendsPromiseDone();
             extendsPromiseFinally();
+            extendsPromiseAllow();
             return true;
         }
     }
