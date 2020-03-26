@@ -2,8 +2,9 @@
  * @file Promise的扩展
  */
 import {isPromise} from "./lib/utils";
+import {PromiseExtend} from './lib/interface';
 
-const PromiseExtends = (function() {
+const PromiseExtends: PromiseExtend.Result = (function() {
     /**
      * static function
      */
@@ -41,7 +42,7 @@ const PromiseExtends = (function() {
     };
 
     return {
-        extend(options) {
+        extend(options: PromiseExtend.Options) {
             const {isExtend = true} = options;
             if (!isPromise() || !isExtend) {
                 return false;
@@ -52,6 +53,7 @@ const PromiseExtends = (function() {
             extendsPromiseClean();
             extendsPromiseDone();
             extendsPromiseFinally();
+            return true;
         }
     }
 })();
