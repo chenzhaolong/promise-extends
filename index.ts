@@ -10,8 +10,53 @@ const PromiseExtends: PromiseExtend.Result = (function() {
      */
 
     // 限流
-    const extendsPromiseLimit = () => {
+    const extendsPromiseLimit: PromiseExtend.voidFn = () => {
+        // @ts-ignore
+        Promise.limit = function(
+            array: PromiseExtend.PromiseLimit.promiseArray,
+            options: PromiseExtend.PromiseLimit.Options
+         ): Promise<any> {
+            if (array.length === 0) {
+                return Promise.resolve([]);
+            }
 
+            const {limitNumber = 3} = options;
+
+            const result: Array<any> = [];
+
+            const limitArray: Array<any> = (function() {
+                let temp1 = [];
+                let temp2 = [];
+                for(let i = 0; i < array.length; i++) {
+                    temp2.push(array[i]);
+                    if (temp2.length === limitNumber || i === array.length - 1) {
+                        temp1.push([...temp2]);
+                        temp2 = [];
+                    }
+                }
+                return temp1;
+            })();
+
+            const next = (resolve: PromiseExtend.resolve, reject: PromiseExtend.reject) => {
+                const fn = limitArray.shift();
+                Promise.all(fn).then((data: Array<any>) => {
+                    data.forEach((value: any) => {
+                        result.push(value);
+                    });
+                    if (limitArray.length === 0) {
+                        resolve(result);
+                    } else {
+                        next(resolve, reject)
+                    }
+                }).catch((e: any) => {
+                    reject(e);
+                })
+            };
+
+            return new Promise((resolve, reject) => {
+                next(resolve, reject)
+            });
+        }
     };
 
     // 统一捕捉异常
