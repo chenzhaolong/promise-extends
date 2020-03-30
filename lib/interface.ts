@@ -23,4 +23,12 @@ export namespace PromiseExtend {
         export type promiseArray = Array<promiseFn>
         export type Options = {limitNumber: number}
     }
+
+    export namespace PromiseCatch {
+        export enum CatchType {
+            LISTEN = 'listen',
+            PUBLISH = 'publish',
+            CLEAN = 'clean'
+        }
+    }
 }

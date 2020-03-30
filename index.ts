@@ -61,7 +61,10 @@ const PromiseExtends: PromiseExtend.Result = (function() {
 
     // 统一捕捉异常
     const extendsPromiseCatch = () => {
+        // @ts-ignore
+        Promise.Catch = function (type: PromiseExtend.PromiseCatch.CatchType, data: any) {
 
+        }
     };
 
     // 统一清除异常
