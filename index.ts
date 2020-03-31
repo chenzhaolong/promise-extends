@@ -69,11 +69,11 @@ const PromiseExtends: PromiseExtend.Result = (function() {
         ) {
             const {key, error, errorFn, stopBubbling} = data;
           switch (type) {
-              case 'listen':
+              case PromiseExtend.PromiseCatch.CatchType.LISTEN:
                   return Events.listen(key, errorFn);
-              case 'publish':
+              case PromiseExtend.PromiseCatch.CatchType.PUBLISH:
                   return Events.publish(key, error, stopBubbling);
-              case 'clean':
+              case PromiseExtend.PromiseCatch.CatchType.CLEAN:
                   return Events.clean(key);
               default:
                   return;
@@ -86,15 +86,11 @@ const PromiseExtends: PromiseExtend.Result = (function() {
 
     };
 
-    // 允许
-    const extendsPromiseAllow = () => {
+    // 允许 - hold
+    const extendsPromiseAllow = () => {};
 
-    };
-
-    // 统一清除异常
-    const extendsPromiseClean = () => {
-
-    };
+    // 统一清除异常 - hold
+    const extendsPromiseClean = () => {};
 
     /**
      * 实例方法

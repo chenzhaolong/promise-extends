@@ -47,4 +47,6 @@ export namespace CatchEvents {
     export type event = {[key: string]: Array<any>}
 
     export type fn = (error: any) => any
+
+    export type cache = {[key: string]: any}
 }

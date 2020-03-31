@@ -6,6 +6,8 @@ import {CatchEvents} from './interface';
 export class Events {
     static event: CatchEvents.event = {};
 
+    static cache: CatchEvents.cache = {};
+
     static listen(type: string, fn: CatchEvents.fn) {
         if (Events.event[type]) {
             Events.event[type].shift();
@@ -13,6 +15,11 @@ export class Events {
         } else {
             Events.event[type] = [];
             Events.event[type].push(fn);
+        }
+        if (Events.cache[type]) {
+            const error = Events.cache[type];
+            delete Events.cache[type];
+            fn(error);
         }
     }
 
@@ -26,6 +33,8 @@ export class Events {
                     const result = errorFn(error);
                     return Promise.reject(result || error);
                 }
+            } else {
+                Events.cache[type] = error;
             }
         } catch (err) {
             return Promise.reject(err);
