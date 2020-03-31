@@ -63,8 +63,21 @@ const PromiseExtends: PromiseExtend.Result = (function() {
     // 统一捕捉异常
     const extendsPromiseCatch = () => {
         // @ts-ignore
-        Promise.Catch = function (type: PromiseExtend.PromiseCatch.CatchType, data: any, stopBubbling: boolean) {
-          
+        Promise.Catch = function (
+            type: PromiseExtend.PromiseCatch.CatchType,
+            data: PromiseExtend.PromiseCatch.data
+        ) {
+            const {key, error, errorFn, stopBubbling} = data;
+          switch (type) {
+              case 'listen':
+                  return Events.listen(key, errorFn);
+              case 'publish':
+                  return Events.publish(key, error, stopBubbling);
+              case 'clean':
+                  return Events.clean(key);
+              default:
+                  return;
+          }
         }
     };
 

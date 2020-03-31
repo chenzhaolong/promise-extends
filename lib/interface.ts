@@ -30,6 +30,12 @@ export namespace PromiseExtend {
             PUBLISH = 'publish',
             CLEAN = 'clean'
         }
+        export interface data {
+            key: string,
+            error: any,
+            errorFn: (error: any) => any,
+            stopBubbling?: boolean
+        }
     }
 
     export namespace PromiseAllow {
@@ -40,5 +46,5 @@ export namespace PromiseExtend {
 export namespace CatchEvents {
     export type event = {[key: string]: Array<any>}
 
-    export type fn = (error: object) => any
+    export type fn = (error: any) => any
 }
