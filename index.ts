@@ -3,6 +3,7 @@
  */
 import {isPromise} from "./lib/utils";
 import {PromiseExtend} from './lib/interface';
+import {Events} from './lib/events';
 
 const PromiseExtends: PromiseExtend.Result = (function() {
     /**
@@ -62,14 +63,9 @@ const PromiseExtends: PromiseExtend.Result = (function() {
     // 统一捕捉异常
     const extendsPromiseCatch = () => {
         // @ts-ignore
-        Promise.Catch = function (type: PromiseExtend.PromiseCatch.CatchType, data: any) {
-
+        Promise.Catch = function (type: PromiseExtend.PromiseCatch.CatchType, data: any, stopBubbling: boolean) {
+          
         }
-    };
-
-    // 统一清除异常
-    const extendsPromiseClean = () => {
-
     };
 
     // 防抖动
@@ -79,6 +75,11 @@ const PromiseExtends: PromiseExtend.Result = (function() {
 
     // 允许
     const extendsPromiseAllow = () => {
+
+    };
+
+    // 统一清除异常
+    const extendsPromiseClean = () => {
 
     };
 

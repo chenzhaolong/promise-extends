@@ -31,4 +31,14 @@ export namespace PromiseExtend {
             CLEAN = 'clean'
         }
     }
+
+    export namespace PromiseAllow {
+
+    }
+}
+
+export namespace CatchEvents {
+    export type event = {[key: string]: Array<any>}
+
+    export type fn = (error: object) => any
 }
