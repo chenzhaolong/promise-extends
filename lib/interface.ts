@@ -38,8 +38,8 @@ export namespace PromiseExtend {
         }
     }
 
-    export namespace PromiseAllow {
-
+    export namespace PromiseShark {
+        export type fn = () => Promise<any>
     }
 }
 

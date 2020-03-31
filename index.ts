@@ -83,7 +83,13 @@ const PromiseExtends: PromiseExtend.Result = (function() {
 
     // 防抖动
     const extendsPromiseShake = () => {
-
+        // @ts-ignore
+        Promise.shake = function(
+            fn: PromiseExtend.PromiseShark.fn,
+            interval: number
+        ) {
+            
+        }
     };
 
     // 允许 - hold
