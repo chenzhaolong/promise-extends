@@ -86,7 +86,9 @@ const PromiseExtends: PromiseExtend.Result = (function() {
         // @ts-ignore
         Promise.shake = function(fn: PromiseExtend.PromiseShark.fn) {
             if (!isThenable(fn)) {
-                return Promise.reject('params is not promise or thenable');
+                return () => {
+                    return Promise.reject('params is not promise or thenable');
+                }
             }
             let cache: any = null;
             return () => {
