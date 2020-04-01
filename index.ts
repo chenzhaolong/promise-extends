@@ -112,7 +112,7 @@ const PromiseExtends: PromiseExtend.Result = (function() {
         }
     };
 
-    // 允许
+    // 允许某几个promise失败
     const extendsPromiseAllow = () => {
         // @ts-ignore
         Promise.allow = function(
