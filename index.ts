@@ -1,7 +1,7 @@
 /**
  * @file Promise的扩展
  */
-import {isPromise} from "./lib/utils";
+import {isPromise, isThenable} from "./lib/utils";
 import {PromiseExtend} from './lib/interface';
 import {Events} from './lib/events';
 
@@ -84,11 +84,29 @@ const PromiseExtends: PromiseExtend.Result = (function() {
     // 防抖动
     const extendsPromiseShake = () => {
         // @ts-ignore
-        Promise.shake = function(
-            fn: PromiseExtend.PromiseShark.fn,
-            interval: number
-        ) {
-            
+        Promise.shake = function(fn: PromiseExtend.PromiseShark.fn) {
+            if (!isThenable(fn)) {
+                return Promise.reject('params is not promise or thenable');
+            }
+            let cache: any = null;
+            return () => {
+                if (cache) {
+                    return cache
+                } else {
+                    return cache = new Promise((resolve, reject) => {
+                        let args: any = arguments;
+                        fn.apply(this, args)
+                            .then((data: any) => {
+                                cache = null;
+                                resolve(data);
+                            })
+                            .catch((error: any) => {
+                                cache = null;
+                                reject(error);
+                            });
+                    });
+                }
+            }
         }
     };
 
