@@ -1,7 +1,7 @@
 /**
  * @file Promise的扩展
  */
-import {isPromise, isThenable} from "./lib/utils";
+import {isPromise, isThenable, isArray} from "./lib/utils";
 import {PromiseExtend} from './lib/interface';
 import {Events} from './lib/events';
 
@@ -11,7 +11,7 @@ const PromiseExtends: PromiseExtend.Result = (function() {
      */
 
     // 限流
-    const extendsPromiseLimit: PromiseExtend.voidFn = () => {
+    const extendsPromiseLimit = () => {
         // @ts-ignore
         Promise.limit = function(
             array: PromiseExtend.PromiseLimit.promiseArray,
@@ -112,11 +112,63 @@ const PromiseExtends: PromiseExtend.Result = (function() {
         }
     };
 
-    // 允许 - hold
-    const extendsPromiseAllow = () => {};
+    // 允许
+    const extendsPromiseAllow = () => {
+        // @ts-ignore
+        Promise.allow = function(
+            array: PromiseExtend.PromiseAllow.array,
+            whiltList: PromiseExtend.PromiseAllow.allowsIndex
+        ) {
+            if (!isArray(array)) {
+                return Promise.reject('has no params');
+            }
 
-    // 统一清除异常 - hold
-    const extendsPromiseClean = () => {};
+            if (array.length < 2) {
+                return Promise.reject('should not use Promise.allow, this function require the params length large than 2');
+            }
+
+            let result: PromiseExtend.PromiseAllow.result = [];
+
+            const isSuccess = (result: PromiseExtend.PromiseAllow.result) => {
+                if (whiltList && isArray(whiltList) && whiltList.length < array.length) {
+                    return result.every((item: PromiseExtend.PromiseAllow.response, index: number) => {
+                        if (whiltList.indexOf(index) !== -1) {
+                            return true;
+                        }
+                        return item.isDone;
+                    })
+                } else {
+                    return result.some((item: PromiseExtend.PromiseAllow.response) => {
+                        return item.isDone;
+                    });
+                }
+            };
+
+            const next = (resolve: PromiseExtend.resolve, reject: PromiseExtend.reject) => {
+                const fn = array.shift();
+                // @ts-ignore
+                fn.then((data: any) => {
+                    result.push({isDone: true, data: data});
+                    if (array.length === 0) {
+                        isSuccess(result) ? resolve(result): reject(result);
+                    } else {
+                        next(resolve, reject)
+                    }
+                }).catch((error: any) => {
+                    result.push({isDone: false, data: error});
+                    if (array.length === 0) {
+                        isSuccess(result) ? resolve(result): reject(result);
+                    } else {
+                        next(resolve, reject)
+                    }
+                })
+            };
+
+            return new Promise((resolve, reject) => {
+                next(resolve, reject);
+            })
+        }
+    };
 
     /**
      * 实例方法
@@ -148,7 +200,6 @@ const PromiseExtends: PromiseExtend.Result = (function() {
             extendsPromiseLimit();
             extendsPromiseShake();
             extendsPromiseCatch();
-            extendsPromiseClean();
             extendsPromiseDone();
             extendsPromiseFinally();
             extendsPromiseAllow();

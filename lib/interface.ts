@@ -41,6 +41,19 @@ export namespace PromiseExtend {
     export namespace PromiseShark {
         export type fn = () => Promise<any>
     }
+
+    export namespace PromiseAllow {
+        interface thenable {
+            then: (data: any) => any
+        }
+        export type array = Array<thenable>
+        export type allowsIndex = Array<number>
+        export interface response {
+            isDone: boolean,
+            data: any
+        }
+        export type result = Array<response>
+    }
 }
 
 export namespace CatchEvents {

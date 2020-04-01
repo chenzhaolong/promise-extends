@@ -16,3 +16,7 @@ export function isThenable(promise: any): boolean {
     }
     return (typeof promise === 'object' || typeof promise === 'function') && promise.then && typeof promise.then === 'function';
 }
+
+export function isArray(array: any): boolean {
+    return Object.prototype.toString.call(array) === "[object Array]"
+}
