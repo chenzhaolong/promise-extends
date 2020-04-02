@@ -4,7 +4,7 @@
   "description": "promise的扩展",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --require babel-core/register",
     "tsc": "tsc"
   },
   "repository": {
@@ -23,10 +23,16 @@
   "dependencies": {
     "chai": "^4.2.0",
     "mocha": "^7.1.1",
+    "ts-node": "^8.8.1",
     "typescript": "^3.2.4"
   },
   "devDependencies": {
+    "@types/node": "^13.11.0",
     "@types/mocha": "^7.0.2",
-    "@types/should": "^13.0.0"
+    "@types/should": "^13.0.0",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-register": "^6.26.0"
   }
 }

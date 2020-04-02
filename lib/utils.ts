@@ -1,7 +1,6 @@
 /**
  * @file 工具函数
  */
-import type = Mocha.utils.type;
 
 export function isPromise(): boolean {
     return Promise && true
