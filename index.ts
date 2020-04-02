@@ -1,7 +1,7 @@
 /**
  * @file Promise的扩展
  */
-import {isPromise, isThenable, isArray} from "./lib/utils";
+import {isPromise, isThenable, isArray, isFunction, isError} from "./lib/utils";
 import {PromiseExtend} from './lib/interface';
 import {Events} from './lib/events';
 
@@ -175,20 +175,45 @@ const PromiseExtends: PromiseExtend.Result = (function() {
      */
     //
     const extendsPromiseDone = () => {
-
+        // @ts-ignore
+        if (typeof Promise.prototype.done === 'function') {
+            return null;
+        }
+        // @ts-ignore
+        Promise.prototype.done = function(onFulfilled, onRejected) {
+            this.then(onFulfilled, onRejected)
+                .catch(error => {
+                    setTimeout(() => {
+                        throw error;
+                    }, 0);
+                });
+        }
     };
 
     const extendsPromiseFinally = () => {
         // @ts-ignore
-        Promise.prototype.finally = function(cb: () => void) {
-            this.then(d => {
-                cb();
-                return d;
-            }).catch(e => {
-                cb();
-                throw e;
+        if (typeof Promise.prototype.finally === 'function') {
+            return null;
+        }
+        // @ts-ignore
+        Promise.prototype.finally = function(cb: PromiseExtend.voidFn) {
+            return this.then((data: any) => {
+                if (isFunction(cb)) {
+                    return Promise.resolve(cb()).then(() => data);
+                } else {
+                    return data
+                }
+            }).catch((error: any) => {
+                const errorObj = isError(error) ? error : new Error(error);
+                if (isFunction(cb)) {
+                    return Promise.resolve(cb()).then(() => {
+                        throw errorObj;
+                    });
+                } else {
+                    throw errorObj;
+                }
             });
-        };
+        }
     };
 
     return {

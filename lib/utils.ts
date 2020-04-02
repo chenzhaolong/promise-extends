@@ -20,3 +20,11 @@ export function isThenable(promise: any): boolean {
 export function isArray(array: any): boolean {
     return Object.prototype.toString.call(array) === "[object Array]"
 }
+
+export function isFunction(fn: any): boolean {
+    return fn && typeof fn === 'function';
+}
+
+export function isError(error: any): boolean {
+    return typeof error === 'object' && error.message;
+}
