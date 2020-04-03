@@ -37,7 +37,24 @@ describe('promise-extends', () => {
     });
 
     describe('test Promise.prototype.finally', () => {
-
+        it('loading can be false when success', () => {
+            let loading = true;
+            const api = function() {
+                return new Promise((res, rej) => {
+                    setTimeout(() => {
+                        res();
+                    }, 1000);
+                });
+            };
+            const handle = () => {
+                return api().finally(() => {
+                    loading = false;
+                }).then(() => {
+                    return loading;
+                });
+            };
+            return expect(handle()).to.become(false);
+        })
     });
 
     describe('test Promise.prototype.done', () => {
