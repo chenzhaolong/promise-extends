@@ -5,7 +5,7 @@ import {isPromise, isThenable, isArray, isFunction, isError} from "./lib/utils";
 import {PromiseExtend} from './lib/interface';
 import {Events} from './lib/events';
 
-const PromiseExtends: PromiseExtend.Result = (function() {
+export const PromiseExtends: PromiseExtend.Result = (function() {
     /**
      * static function
      */
@@ -232,5 +232,3 @@ const PromiseExtends: PromiseExtend.Result = (function() {
         }
     }
 })();
-
-export default PromiseExtends

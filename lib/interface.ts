@@ -8,7 +8,7 @@ export namespace PromiseExtend {
     }
 
     export interface Options {
-        isExtend: boolean
+        isExtend?: boolean
     }
 
     export type voidFn = () => void

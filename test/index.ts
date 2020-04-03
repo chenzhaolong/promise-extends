@@ -1,16 +1,21 @@
 /**
  * @file 单元测试
  */
+import { PromiseExtends } from '../index'
 
-'use strict';
+const chai = require('chai');
+const chaiAsPromised = require("chai-as-promised");
 
-import PromiseExtends from '../index';
+chai.use(chaiAsPromised);
+const expect = chai.expect;
 
-var chai = require('chai');
+PromiseExtends.extend({isExtend: true});
 
 describe('promise-extends', () => {
     describe('test Promise.limit', () => {
-
+        it('test', () => {
+            return expect(Promise.reject({ foo1: "bar" })).to.eventually.have.property("foo");
+        });
     });
 
     describe('test Promise.catch', () => {
