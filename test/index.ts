@@ -14,7 +14,13 @@ PromiseExtends.extend({isExtend: true});
 describe('promise-extends', () => {
     describe('test Promise.limit', () => {
         it('test', () => {
-            return expect(Promise.reject({ foo1: "bar" })).to.eventually.have.property("foo");
+            const fn = function() {
+                return new Promise((res, rej) => {
+                    res(1)
+                })
+            };
+
+            return expect(fn()).to.become(1);
         });
     });
 
