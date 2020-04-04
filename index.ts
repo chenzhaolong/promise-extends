@@ -173,7 +173,6 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
     /**
      * 实例方法
      */
-    //
     const extendsPromiseDone = () => {
         // @ts-ignore
         if (typeof Promise.prototype.done === 'function') {
@@ -190,6 +189,9 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
         }
     };
 
+    /**
+     * @deprecated
+     */
     const extendsPromiseFinally = () => {
         // @ts-ignore
         if (typeof Promise.prototype.finally === 'function') {
@@ -216,17 +218,32 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
         }
     };
 
+
+    const reset = () => {
+        // @ts-ignore
+        Promise.limit = undefined;
+        // @ts-ignore
+        Promise.shake = undefined;
+        // @ts-ignore
+        Promise.allow = undefined;
+        // @ts-ignore
+        Promise.catch = undefined;
+        // @ts-ignore
+        Promise.prototype.done = undefined;
+    };
+
     return {
         extend(options: PromiseExtend.Options) {
             const {isExtend = true} = options;
             if (!isPromise() || !isExtend) {
+                reset();
                 return false;
             }
             extendsPromiseLimit();
             extendsPromiseShake();
             extendsPromiseCatch();
             extendsPromiseDone();
-            extendsPromiseFinally();
+            // extendsPromiseFinally();
             extendsPromiseAllow();
             return true;
         }
