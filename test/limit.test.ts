@@ -68,16 +68,81 @@ describe('test Promise.limit', () => {
         expect(type).to.equal('undefined');
     });
 
-    it('when limitNumber is 3 when invoke Promise.limit for success', () => {
+    it('when limitNumber is 4 invoking Promise.limit for success', () => {
         PromiseExtends.extend({isExtend: true});
         const invoke = () => {
             // @ts-ignore
-            return Promise.limit(fetchArray, {limitNumber: 3})
+            return Promise.limit(fetchArray, {limitNumber: 4})
                 .then((d:any) => {
                     return d;
                 })
                 .catch((e: any) => {});
         };
         return expect(invoke()).to.eventually.eql(['1', '2', '3', '4', '5']);
+    });
+
+    it('when limitNumber is 4 invoking Promise.limit for one of fail', () => {
+        PromiseExtends.extend({isExtend: true});
+        const errorFn1 = () => {
+            return new Promise((res, rej) => {
+                setTimeout(() => {
+                    rej('error');
+                }, 32)
+            });
+        };
+        const array = [api1('1'), api2('2'), api3('3'), api4('4'), api5('5'), errorFn1()];
+        const invoke = () => {
+            // @ts-ignore
+            return Promise.limit(array, {limitNumber: 4})
+                .then(() => {})
+                .catch((e: any) => {
+                    throw e
+                })
+        };
+        return expect(invoke()).to.eventually.rejectedWith('error');
     })
+
+    it('array is empty for Promise.limit', () => {
+        const invoke = () => {
+            // @ts-ignore
+            return Promise.limit([])
+                .then((d: any) => {
+                    return d.length
+                })
+        };
+        return expect(invoke()).to.eventually.equal(0);
+    });
+
+    it('invoke Promise.limit outside, invoke Promise.limit inside', () => {
+        const invoke1 = () => {
+            // @ts-ignore
+            return Promise.limit([api1('1'), api2('2'), api3('3')], {limitNumber: 2})
+                .then((d: any) => {
+                    return d
+                })
+        };
+        const invoke2 = () => {
+            // @ts-ignore
+            return Promise.limit([api4({a: 1}), api5('5'), invoke1()], {limitNumber: 2})
+                .then((d: any) => {
+                    return d
+                })
+        };
+        return expect(invoke2()).to.eventually.eql([{a: 1}, '5', ['1', '2', '3']]);
+    })
+
+    it('the length of array is 9, the limitNumber is 2', () => {
+        fetchArray.push(api1('6'));
+        fetchArray.push(api1([1,2]));
+        fetchArray.push(api1({a: 1}));
+        fetchArray.push(api1('ad'));
+        const invoke = () => {
+            // @ts-ignore
+            return Promise.limit(fetchArray, {limitNumber: 2})
+                .then((d: any) => {
+                    return d
+                })
+        };
+        return expect(invoke()).to.eventually.eql(['1', '2', '3', '4', '5', '6', [1,2], {a: 1}, 'ad']);
+    });
 });

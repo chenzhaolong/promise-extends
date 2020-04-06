@@ -17,7 +17,7 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
             array: PromiseExtend.PromiseLimit.promiseArray,
             options: PromiseExtend.PromiseLimit.Options
          ): Promise<any> {
-            if (array.length === 0) {
+            if (!array || array.length === 0) {
                 return Promise.resolve([]);
             }
 
