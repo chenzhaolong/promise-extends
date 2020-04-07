@@ -117,7 +117,7 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
         // @ts-ignore
         Promise.allow = function(
             array: PromiseExtend.PromiseAllow.array,
-            whiltList: PromiseExtend.PromiseAllow.allowsIndex
+            whiteList: PromiseExtend.PromiseAllow.allowsIndex
         ) {
             if (!isArray(array)) {
                 return Promise.reject('has no params');
@@ -130,11 +130,12 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
             let result: PromiseExtend.PromiseAllow.result = [];
 
             const isSuccess = (result: PromiseExtend.PromiseAllow.result) => {
-                if (whiltList && isArray(whiltList) && whiltList.length < array.length) {
+                if (whiteList && isArray(whiteList) && whiteList.length < array.length) {
                     return result.every((item: PromiseExtend.PromiseAllow.response, index: number) => {
-                        if (whiltList.indexOf(index) !== -1) {
+                        if (whiteList.indexOf(index) !== -1) {
                             return true;
                         }
+
                         return item.isDone;
                     })
                 } else {
