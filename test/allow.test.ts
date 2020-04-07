@@ -158,7 +158,7 @@ describe('test Promise.allow', () => {
     });
 
     describe('check whitelist', () => {
-        it('allow the one can fail', () => {
+        it('allow one fail, but two fail others success', () => {
             PromiseExtends.extend({isExtend: true});
             const array = [api1('1'), api2(new Error('ji'), false), api3('3')];
             const invoke = () => {
@@ -172,6 +172,38 @@ describe('test Promise.allow', () => {
                     })
             };
             return expect(invoke()).to.eventually.rejected;
+        });
+
+        it('allow one and three fail, but two fail others success', () => {
+            PromiseExtends.extend({isExtend: true});
+            const array = [api1('1'), api2(new Error('ji'), false), api3('3')];
+            const invoke = () => {
+                // @ts-ignore
+                return Promise.allow(array, [0, 2])
+                    .then((d: any) => {
+                        return d
+                    })
+                    .catch((e: any) => {
+                        throw e
+                    })
+            };
+            return expect(invoke()).to.eventually.rejected;
+        });
+
+        it('allow the two can fail, and two fail others success', () => {
+            PromiseExtends.extend({isExtend: true});
+            const array = [api1('1'), api2(new Error('ji'), false), api3('3')];
+            const invoke = () => {
+                // @ts-ignore
+                return Promise.allow(array, [1])
+                    .then((d: any) => {
+                        return d
+                    })
+                    .catch((e: any) => {
+                        throw e
+                    })
+            };
+            return expect(invoke()).to.eventually.fulfilled;
         });
     });
 });

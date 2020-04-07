@@ -128,9 +128,10 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
             }
 
             let result: PromiseExtend.PromiseAllow.result = [];
+            let length = array.length;
 
             const isSuccess = (result: PromiseExtend.PromiseAllow.result) => {
-                if (whiteList && isArray(whiteList) && whiteList.length < array.length) {
+                if (whiteList && isArray(whiteList) && whiteList.length < length) {
                     return result.every((item: PromiseExtend.PromiseAllow.response, index: number) => {
                         if (whiteList.indexOf(index) !== -1) {
                             return true;
