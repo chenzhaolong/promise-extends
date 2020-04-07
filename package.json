@@ -4,7 +4,7 @@
   "description": "promise的扩展",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && mocha --require babel-register test/*.js",
+    "test": "tsc && mocha --require babel-register test/allow.test.js",
     "tsc": "tsc"
   },
   "repository": {
@@ -36,6 +36,7 @@
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-register": "^6.26.0"
+    "babel-register": "^6.26.0",
+    "babel-polyfill": "^6.26.0"
   }
 }
