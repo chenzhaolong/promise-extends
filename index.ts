@@ -122,13 +122,13 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
             if (!isArray(array)) {
                 return Promise.reject('has no params');
             }
+            let length = array.length;
 
-            if (array.length < 2) {
-                return Promise.reject('should not use Promise.allow, this function require the params length large than 2');
+            if (length < 2) {
+                return Promise.reject('should not use Promise.allow, this function require the length of params large than 2');
             }
 
             let result: PromiseExtend.PromiseAllow.result = [];
-            let length = array.length;
 
             const isSuccess = (result: PromiseExtend.PromiseAllow.result) => {
                 if (whiteList && isArray(whiteList) && whiteList.length < length) {
