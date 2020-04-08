@@ -4,7 +4,7 @@
   "description": "promise的扩展",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && mocha --require babel-register test/allow.test.js",
+    "test": "tsc && mocha --require babel-register test/done.test.js",
     "tsc": "tsc"
   },
   "repository": {

@@ -10,7 +10,9 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
      * static function
      */
 
-    // 限流
+    /**
+     * 限流
+     */
     const extendsPromiseLimit = () => {
         // @ts-ignore
         Promise.limit = function(
@@ -60,7 +62,10 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
         }
     };
 
-    // 统一捕捉异常
+    /**
+     *  统一捕捉异常
+     *  @holding
+     */
     const extendsPromiseCatch = () => {
         // @ts-ignore
         Promise.catch = function (
@@ -81,7 +86,9 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
         }
     };
 
-    // 防抖动
+    /**
+     * 防抖动
+     */
     const extendsPromiseShake = () => {
         // @ts-ignore
         Promise.shake = function(fn: PromiseExtend.PromiseShark.fn) {
@@ -112,7 +119,9 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
         }
     };
 
-    // 允许某几个promise失败
+    /**
+     * 允许某几个promise失败
+     */
     const extendsPromiseAllow = () => {
         // @ts-ignore
         Promise.allow = function(
@@ -191,36 +200,6 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
         }
     };
 
-    /**
-     * @deprecated
-     */
-    const extendsPromiseFinally = () => {
-        // @ts-ignore
-        if (typeof Promise.prototype.finally === 'function') {
-            return null;
-        }
-        // @ts-ignore
-        Promise.prototype.finally = function(cb: PromiseExtend.voidFn) {
-            return this.then((data: any) => {
-                if (isFunction(cb)) {
-                    return Promise.resolve(cb()).then(() => data);
-                } else {
-                    return data
-                }
-            }).catch((error: any) => {
-                const errorObj = isError(error) ? error : new Error(error);
-                if (isFunction(cb)) {
-                    return Promise.resolve(cb()).then(() => {
-                        throw errorObj;
-                    });
-                } else {
-                    throw errorObj;
-                }
-            });
-        }
-    };
-
-
     const reset = () => {
         // @ts-ignore
         Promise.limit = undefined;
@@ -229,7 +208,7 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
         // @ts-ignore
         Promise.allow = undefined;
         // @ts-ignore
-        Promise.catch = undefined;
+        // Promise.catch = undefined;
         // @ts-ignore
         Promise.prototype.done = undefined;
     };
@@ -243,9 +222,8 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
             }
             extendsPromiseLimit();
             extendsPromiseShake();
-            extendsPromiseCatch();
+            // extendsPromiseCatch();
             extendsPromiseDone();
-            // extendsPromiseFinally();
             extendsPromiseAllow();
             return true;
         }

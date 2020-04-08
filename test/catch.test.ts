@@ -12,4 +12,6 @@ const expect = chai.expect;
 
 PromiseExtends.extend({isExtend: true});
 
-describe('test Promise.catch', () => {});
+describe('test Promise.catch', () => {
+    it('')
+});
