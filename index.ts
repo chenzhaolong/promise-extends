@@ -92,27 +92,37 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
     const extendsPromiseShake = () => {
         // @ts-ignore
         Promise.shake = function(fn: PromiseExtend.PromiseShark.fn) {
-            if (!isThenable(fn)) {
+            if (!fn) {
                 return () => {
-                    return Promise.reject('params is not promise or thenable');
+                    return Promise.reject('params can not be empty');
                 }
             }
+
+            if (typeof fn !== 'function') {
+                return () => {
+                    return Promise.reject('params must be function');
+                }
+            }
+
             let cache: any = null;
-            return () => {
+            return (...rest: any) => {
                 if (cache) {
                     return cache
                 } else {
                     return cache = new Promise((resolve, reject) => {
-                        let args: any = arguments;
-                        fn.apply(this, args)
-                            .then((data: any) => {
+                        const promise = fn.apply(this, rest);
+                        if (isThenable(promise)) {
+                            promise.then((data: any) => {
                                 cache = null;
                                 resolve(data);
-                            })
-                            .catch((error: any) => {
+                            }).catch((error: any) => {
                                 cache = null;
                                 reject(error);
                             });
+                        } else {
+                            cache = null;
+                            reject('params is not promise or thenable');
+                        }
                     });
                 }
             }

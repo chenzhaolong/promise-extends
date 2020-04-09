@@ -2,9 +2,10 @@
   "name": "promise-extends",
   "version": "1.0.0",
   "description": "promise的扩展",
-  "main": "index.js",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "scripts": {
-    "test": "tsc && mocha --require babel-register test/done.test.js",
+    "test": "tsc && mocha --require babel-register test/shake.test.js",
     "tsc": "tsc"
   },
   "repository": {
