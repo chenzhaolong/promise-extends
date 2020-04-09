@@ -5,7 +5,7 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
-    "test": "tsc && mocha --require babel-register test/shake.test.js",
+    "test": "tsc && mocha --require babel-register test/*.js",
     "tsc": "tsc"
   },
   "repository": {
