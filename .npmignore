@@ -1,5 +1,7 @@
 #lib
-lib/*.ts
+lib/events.ts
+lib/interface.ts
+lib/utils.ts
 
 # Dependency directories
 node_modules/
@@ -10,5 +12,8 @@ test/
 #root
 index.ts
 
-#exam
-exam/
+.gitignore
+
+tsconfig.json
+
+.idea/
