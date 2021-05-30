@@ -19,8 +19,13 @@ export function extendPromiseLimit () {
             if (!array || array.length === 0) {
                 return resolve([]);
             }
-            const {limitNumber = 3} = options;
+            let {limitNumber = 3} = options;
             const total = array.length;
+
+            if (total <= limitNumber) {
+                limitNumber = total;
+            }
+
             const result: Array<any> = [];
             let count: number = 0;
             let index: number = 0;
