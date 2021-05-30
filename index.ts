@@ -192,6 +192,16 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
     };
 
     /**
+     * promise缓存
+     */
+    const extendPromiseCache = () => {};
+
+    /**
+     * promise管理器
+     */
+    const extendPromiseManager = () => {};
+
+    /**
      * 实例方法
      */
     const extendsPromiseDone = () => {
@@ -221,6 +231,10 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
         // Promise.catch = undefined;
         // @ts-ignore
         Promise.prototype.done = undefined;
+        // @ts-ignore
+        Promise.cache = undefined;
+        // @ts-ignore
+        Promise.manager = undefined;
     };
 
     return {
@@ -235,6 +249,8 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
             // extendsPromiseCatch();
             extendsPromiseDone();
             extendsPromiseAllow();
+            extendPromiseCache();
+            extendPromiseManager();
             return true;
         }
     }
