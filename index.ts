@@ -4,6 +4,7 @@
 import {isPromise, isThenable, isArray, isFunction, isError} from "./lib/utils";
 import {PromiseExtend} from './lib/interface';
 import {Events} from './lib/events';
+import { extendPromiseLimit } from './lib/limit';
 
 export const PromiseExtends: PromiseExtend.Result = (function() {
     /**
@@ -13,54 +14,54 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
     /**
      * 限流
      */
-    const extendsPromiseLimit = () => {
-        // @ts-ignore
-        Promise.limit = function(
-            array: PromiseExtend.PromiseLimit.promiseArray,
-            options: PromiseExtend.PromiseLimit.Options
-         ): Promise<any> {
-            if (!array || array.length === 0) {
-                return Promise.resolve([]);
-            }
-
-            const {limitNumber = 3} = options;
-
-            const result: Array<any> = [];
-
-            const limitArray: Array<any> = (function() {
-                let temp1 = [];
-                let temp2 = [];
-                for(let i = 0; i < array.length; i++) {
-                    temp2.push(array[i]);
-                    if (temp2.length === limitNumber || i === array.length - 1) {
-                        temp1.push([...temp2]);
-                        temp2 = [];
-                    }
-                }
-                return temp1;
-            })();
-
-            const next = (resolve: PromiseExtend.resolve, reject: PromiseExtend.reject) => {
-                const fn = limitArray.shift();
-                Promise.all(fn).then((data: Array<any>) => {
-                    data.forEach((value: any) => {
-                        result.push(value);
-                    });
-                    if (limitArray.length === 0) {
-                        resolve(result);
-                    } else {
-                        next(resolve, reject)
-                    }
-                }).catch((e: any) => {
-                    reject(e);
-                })
-            };
-
-            return new Promise((resolve, reject) => {
-                next(resolve, reject)
-            });
-        }
-    };
+    // const extendsPromiseLimit = () => {
+    //     // @ts-ignore
+    //     Promise.limit = function(
+    //         array: PromiseExtend.PromiseLimit.promiseArray,
+    //         options: PromiseExtend.PromiseLimit.Options
+    //      ): Promise<any> {
+    //         if (!array || array.length === 0) {
+    //             return Promise.resolve([]);
+    //         }
+    //
+    //         const {limitNumber = 3} = options;
+    //
+    //         const result: Array<any> = [];
+    //
+    //         const limitArray: Array<any> = (function() {
+    //             let temp1 = [];
+    //             let temp2 = [];
+    //             for(let i = 0; i < array.length; i++) {
+    //                 temp2.push(array[i]);
+    //                 if (temp2.length === limitNumber || i === array.length - 1) {
+    //                     temp1.push([...temp2]);
+    //                     temp2 = [];
+    //                 }
+    //             }
+    //             return temp1;
+    //         })();
+    //
+    //         const next = (resolve: PromiseExtend.resolve, reject: PromiseExtend.reject) => {
+    //             const fn = limitArray.shift();
+    //             Promise.all(fn).then((data: Array<any>) => {
+    //                 data.forEach((value: any) => {
+    //                     result.push(value);
+    //                 });
+    //                 if (limitArray.length === 0) {
+    //                     resolve(result);
+    //                 } else {
+    //                     next(resolve, reject)
+    //                 }
+    //             }).catch((e: any) => {
+    //                 reject(e);
+    //             })
+    //         };
+    //
+    //         return new Promise((resolve, reject) => {
+    //             next(resolve, reject)
+    //         });
+    //     }
+    // };
 
     /**
      *  统一捕捉异常
@@ -244,7 +245,7 @@ export const PromiseExtends: PromiseExtend.Result = (function() {
                 reset();
                 return false;
             }
-            extendsPromiseLimit();
+            extendPromiseLimit();
             extendsPromiseShake();
             // extendsPromiseCatch();
             extendsPromiseDone();
