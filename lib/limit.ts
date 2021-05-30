@@ -46,11 +46,11 @@ export function extendPromiseLimit () {
                 if (count >= total) {
                     resolve(result);
                 } else {
-                    index += 1;
                     const promise = array[index];
                     if (promise) {
                         run(promise, index);
                     }
+                    index += 1;
                 }
             };
 
